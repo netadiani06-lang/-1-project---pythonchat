@@ -1,0 +1,20 @@
+#simple client in python
+
+import socket
+PORT_NUMBER = 7760
+SERVER_ID = '127.0.0.1'
+
+def socket_client():
+    # הגדרת אובייקט מסוג סוקט שישמש עבור הלקוח
+    client = socket.socket()
+    #חיבור את הלקוח לשרת בפורט שהצהרתי 
+    client.connect((SERVER_ID, PORT_NUMBER)) 
+    # שליחת המידע אל השרת
+    client.send('hi'.encode('utf-8'))
+    # קריאת המידע שהתקבל בחזרה מהשרת
+    data_from_server = client.recv(1024)
+    print (data_from_server)
+    client.close()
+
+if __name__ == '__main__':
+    socket_client()

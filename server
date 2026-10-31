@@ -1,0 +1,27 @@
+#simple socket server in python
+
+import socket
+PORT_NUMBER = 7760 # הגדרת משתנה קבוע
+
+def server_func():
+     #ניצור אובייקט מסוג סוקט איתו נעבוד בתור השרת
+    server = socket.socket()
+    #   נגדיר עבור שרת זה את היכולת שלו להאזין לפורט 7760 על גבי מחשב זה
+    server.bind(('0.0.0.0', PORT_NUMBER))  
+    # הערה: 0.0.0.0. שווה להאזנה לכל התעבורה שנכנסת למחשב על הפורט שהגדרנו במשתנה, במקרה זה 7760
+    # נגדיר את מספר החיבורים שהשרת יוכל לעשות עם הלקוח, במקרה זה 1
+    server.listen(1)
+    client, address = server.accept()
+    #  מתודה המייצרת מצב של חסימה כל עוד לא נוצר חיבור עם השרת, איזה שרת?. ברגע שנוצר חיבור, נקבל את אובייקט הלקוח ואת הכתובת שלו
+    # נדפיס את כתובת הלקוח שהתקבלה
+    print(f"conection address: {address}")
+    # קריאת המידע ששלח הלקוח לשרת עד גודל של 1024 בתים
+    data = client.recv(1024).decode('utf-8')
+    # נשלח תשובה בחזרה ללקוח
+    client.send(("The data: " + data).encode('utf-8'))
+    # סגירת החיבור בין השרת ללקוח
+    client.close()
+    server.close()
+
+if __name__ == '__main__':
+    server_func()
